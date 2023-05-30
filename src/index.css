@@ -380,3 +380,8 @@ i {
   justify-content: center;
   width: 100%;
 }
+
+.active {
+  font-weight: bold;
+  color: #3992ff;
+}
