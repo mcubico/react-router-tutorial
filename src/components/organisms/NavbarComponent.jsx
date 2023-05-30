@@ -12,6 +12,9 @@ const NavbarComponent = () => (
       <li>
         <NavLink to='/users' className={({ isActive }) => isActive ? 'active' : ''}>Users</NavLink>
       </li>
+      <li>
+        <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
+      </li>
     </ul>
   </nav>
 )
