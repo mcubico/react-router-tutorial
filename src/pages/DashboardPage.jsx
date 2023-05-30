@@ -1,13 +1,12 @@
-import { Link, Route, Routes } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 
 const DashboardPage = () => (
   <div>
     <h1>Dashboard Page</h1>
     <Link to='welcome'>Say welcome</Link>
+    <Link to='goodbye'>Say Goodbye</Link>
 
-    <Routes>
-      <Route path='welcome' element={ <p>Welcome!</p> } />
-    </Routes>
+    <Outlet />
   </div>
 )
 

@@ -17,7 +17,10 @@ const App = () => (
       <Route path='/about' element={<AboutPage />} />
       <Route path='/users' element={<UsersPage />} />
       <Route path='/user/:id' element={<UserPage />} />
-      <Route path='/dashboard/*' element={<DashboardPage />} />
+      <Route path='/dashboard/*' element={<DashboardPage />}>
+        <Route path='welcome' element={<p>Welcome!</p>} />
+        <Route path='goodbye' element={<p>Goodbye!</p>} />
+      </Route>
       <Route path='*' element={<NotFoundErrorPage />} />
     </Routes>
   </BrowserRouter>
