@@ -1,29 +1,9 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import UsersPage from './pages/users/UsersPage';
-import UserPage from './pages/users/UserPage';
-import NavbarComponent from './components/organisms/NavbarComponent';
-import DashboardPage from './pages/DashboardPage';
-import NotFoundErrorPage from './pages/errors/NotFound';
+import { RouterProvider } from 'react-router-dom';
+
+import router from './router/router';
 
 const App = () => (
-  <BrowserRouter>
-    <NavbarComponent />
-
-    <Routes>
-      <Route path='/' element={<Navigate to='/home' />} />
-      <Route path='/home' element={<HomePage />} />
-      <Route path='/about' element={<AboutPage />} />
-      <Route path='/users' element={<UsersPage />} />
-      <Route path='/user/:id' element={<UserPage />} />
-      <Route path='/dashboard/*' element={<DashboardPage />}>
-        <Route path='welcome' element={<p>Welcome!</p>} />
-        <Route path='goodbye' element={<p>Goodbye!</p>} />
-      </Route>
-      <Route path='*' element={<NotFoundErrorPage />} />
-    </Routes>
-  </BrowserRouter>
+  <RouterProvider router={router} />
 )
 
 export default App
