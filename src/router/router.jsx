@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from "react-router-dom"
+import { Navigate, Route, Routes, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 
 import RootPage, { loader as rootGetAllContacts, action as rootNewContactAction } from "../pages/RootPage"
 import ErrorPage from "../pages/errors/ErrorPage"
@@ -40,12 +40,46 @@ const router = createBrowserRouter([
           {
             path: "/home/contacts/:contactId/destroy",
             action: destroyContactAction,
-            errorElement: <div>Oops! There was an error.</div>,
           },
         ]
       }
     ],
   }
 ])
+
+export const routerJSX = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<Navigate to='/home' />} />
+      <Route
+        path="/home"
+        element={<RootPage />}
+        errorElement={<ErrorPage />}
+        loader={rootGetAllContacts}
+        action={rootNewContactAction}
+      >
+        <Route errorElement={<ErrorPage />}>
+          <Route index element={<IndexPage />} />
+          <Route
+            path='/home/contacts/:contactId'
+            element={<ContactPage />}
+            loader={contactLoader}
+            action={favoriteAction}
+          />
+          <Route
+            path="/home/contacts/:contactId/edit"
+            element={<EditContactPage />}
+            loader={contactLoader}
+            action={contactEditAction}
+          />
+          <Route
+            path="/home/contacts/:contactId/destroy"
+            action={destroyContactAction}
+          />
+        </Route>
+      </Route>
+    </>
+  )
+)
 
 export default router
