@@ -4,6 +4,7 @@ import RootPage, { loader as rootGetAllContacts, action as rootNewContactAction 
 import ErrorPage from "../pages/errors/ErrorPage"
 import ContactPage, { loader as contactLoader, destroyContactAction } from "../pages/contacts/ContactPage"
 import EditContactPage, { action as contactEditAction } from "../pages/contacts/ContactEditPage"
+import IndexPage from "../pages/IndexPage"
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     loader: rootGetAllContacts,
     action: rootNewContactAction,
     children: [
+      {
+        index: true,
+        element: <IndexPage />,
+      },
       {
         path: '/contacts/:contactId',
         element: <ContactPage />,

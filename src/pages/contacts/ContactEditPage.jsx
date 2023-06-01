@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, redirect, useLoaderData } from "react-router-dom";
+import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { updateContact } from "../../services/contact.service";
 
 export const action = async ({ request, params }) => {
@@ -15,7 +15,8 @@ export const action = async ({ request, params }) => {
 }
 
 const EditContactPage = () => {
-  const { contact } = useLoaderData();
+  const { contact } = useLoaderData()
+  const navigate = useNavigate()
 
   return (
     <Form method="post" id="contact-form">
@@ -70,7 +71,7 @@ const EditContactPage = () => {
 
       <p>
         <button type="submit">Save</button>
-        <button type="button">Cancel</button>
+        <button type="button" onClick={() => navigate(-1)}>Cancel</button>
       </p>
 
     </Form>
