@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"
+import { Navigate, createBrowserRouter } from "react-router-dom"
 
 import RootPage, { loader as rootGetAllContacts, action as rootNewContactAction } from "../pages/RootPage"
 import ErrorPage from "../pages/errors/ErrorPage"
@@ -9,6 +9,10 @@ import IndexPage from "../pages/IndexPage"
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Navigate to='/home' />
+  },
+  {
+    path: '/home',
     element: <RootPage />,
     errorElement: <ErrorPage />,
     loader: rootGetAllContacts,
@@ -19,7 +23,7 @@ const router = createBrowserRouter([
         element: <IndexPage />,
       },
       {
-        path: '/contacts/:contactId',
+        path: 'contacts/:contactId',
         element: <ContactPage />,
         loader: contactLoader
       },

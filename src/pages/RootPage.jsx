@@ -2,10 +2,14 @@
 import { Form, NavLink, Outlet, redirect, useLoaderData, useNavigation } from "react-router-dom"
 
 import { createContact, getContacts } from '../services/contact.service';
+import { useEffect } from "react";
 
-export const loader = async () => {
-  const contacts = await getContacts()
-  return { contacts }
+export const loader = async ({request}) => {
+  const url = new URL(request.url);
+  const query = url.searchParams.get("query");
+  const contacts = await getContacts(query);
+
+  return { contacts, query }
 }
 
 export const action = async () => {
@@ -14,8 +18,12 @@ export const action = async () => {
 }
 
 const RootPage = () => {
-  const { contacts } = useLoaderData()
+  const { contacts, query } = useLoaderData()
   const navigation = useNavigation()
+
+  useEffect(() => {
+    document.getElementById('query').value = query
+  }, [query])
 
   return <>
     <div id="sidebar">
@@ -24,13 +32,14 @@ const RootPage = () => {
 
       <div>
 
-        <form id="search-form" role="search">
+        <Form id="search-form" role="search">
           <input
-            id="q"
+            id="query"
             aria-label="Search contacts"
             placeholder="Search"
             type="search"
-            name="q"
+            name="query"
+            defaultValue={query}
           />
           <div
             id="search-spinner"
@@ -41,7 +50,7 @@ const RootPage = () => {
             className="sr-only"
             aria-live="polite"
           ></div>
-        </form>
+        </Form>
 
         <Form method="post">
           <button type="submit">New</button>
