@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, redirect, useLoaderData } from "react-router-dom";
-import { deleteContact, getContact } from "../../services/contact.service";
+import { Form, redirect, useFetcher, useLoaderData } from "react-router-dom";
+import { deleteContact, getContact, updateContact } from "../../services/contact.service";
 
 export const loader = async ({ params }) => {
   const contact = await getContact(params.contactId)
@@ -10,6 +10,13 @@ export const loader = async ({ params }) => {
 export const destroyContactAction = async ({ params }) => {
   await deleteContact(params.contactId)
   return redirect('/')
+}
+
+export const favoriteAction = async ({ request, params }) => {
+  const formData = await request.formData()
+  return updateContact(params.contactId, {
+    favorite: formData.get('favorite') === 'true'
+  })
 }
 
 const ContactPage = () => {
@@ -88,12 +95,16 @@ const ContactPage = () => {
   </>
 }
 
-function Favorite({ contact }) {
-  // yes, this is a `let` for later
+const Favorite = ({ contact }) => {
+  const fetcher = useFetcher()
   let favorite = contact.favorite;
 
+  // Use formData to update the favorite state immediately
+  if (fetcher.formData)
+    favorite = fetcher.formData.get("favorite") === "true";
+
   return (
-    <Form method="post">
+    <fetcher.Form Form method="post">
       <button
         name="favorite"
         value={favorite ? "false" : "true"}
@@ -105,7 +116,7 @@ function Favorite({ contact }) {
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </fetcher.Form>
   )
 }
 
