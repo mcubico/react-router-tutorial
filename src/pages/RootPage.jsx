@@ -1,11 +1,16 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom"
+/* eslint-disable react-refresh/only-export-components */
+import { Form, Link, Outlet, redirect, useLoaderData } from "react-router-dom"
 
-import { getContacts } from '../services/contact.service';
+import { createContact, getContacts } from '../services/contact.service';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const loader = async () => {
-  const contacts = await getContacts()  
-  return contacts
+  const contacts = await getContacts()
+  return { contacts }
+}
+
+export const action = async () => {
+  const contact = await createContact()
+  return redirect(`/contacts/${contact.id}/edit`)
 }
 
 const RootPage = () => {
@@ -13,7 +18,7 @@ const RootPage = () => {
 
   return <>
     <div id="sidebar">
-      
+
       <h1>React Router Tutorial</h1>
 
       <div>
@@ -37,9 +42,9 @@ const RootPage = () => {
           ></div>
         </form>
 
-        <form method="post">
+        <Form method="post">
           <button type="submit">New</button>
-        </form>
+        </Form>
 
       </div>
 

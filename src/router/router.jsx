@@ -1,20 +1,29 @@
 import { createBrowserRouter } from "react-router-dom"
 
-import RootPage, { loader as rootLoader } from "../pages/RootPage"
+import RootPage, { loader as rootGetAllContacts, action as rootNewContactAction } from "../pages/RootPage"
 import ErrorPage from "../pages/errors/ErrorPage"
-import ContactPage from "../pages/contacts/ContactPage"
+import ContactPage, { loader as contactLoader } from "../pages/contacts/ContactPage"
+import EditContactPage, { action as contactEditAction } from "../pages/contacts/ContactEditPage"
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootPage />,
     errorElement: <ErrorPage />,
-    loader: rootLoader,
+    loader: rootGetAllContacts,
+    action: rootNewContactAction,
     children: [
       {
         path: '/contacts/:contactId',
-        element: <ContactPage />
-      }
+        element: <ContactPage />,
+        loader: contactLoader
+      },
+      {
+        path: "contacts/:contactId/edit",
+        element: <EditContactPage />,
+        loader: contactLoader,
+        action: contactEditAction,
+      },
     ]
   }
 ])
