@@ -1,10 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, NavLink, Outlet, redirect, useLoaderData, useNavigation } from "react-router-dom"
+import { Form, NavLink, Outlet, redirect, useLoaderData, useNavigation, useSubmit } from "react-router-dom"
 
 import { createContact, getContacts } from '../services/contact.service';
 import { useEffect } from "react";
 
-export const loader = async ({request}) => {
+export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
   const contacts = await getContacts(query);
@@ -19,7 +19,8 @@ export const action = async () => {
 
 const RootPage = () => {
   const { contacts, query } = useLoaderData()
-  const navigation = useNavigation()
+  const navigation = useNavigation()  
+  const submit = useSubmit()
 
   useEffect(() => {
     document.getElementById('query').value = query
@@ -40,6 +41,10 @@ const RootPage = () => {
             type="search"
             name="query"
             defaultValue={query}
+            onChange={(event) => {
+              if (event.currentTarget.value.length == 0 || event.currentTarget.value.length > 2)
+                submit(event.currentTarget.form)
+            }}
           />
           <div
             id="search-spinner"
