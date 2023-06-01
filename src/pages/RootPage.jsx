@@ -19,8 +19,11 @@ export const action = async () => {
 
 const RootPage = () => {
   const { contacts, query } = useLoaderData()
-  const navigation = useNavigation()  
+  const navigation = useNavigation()
   const submit = useSubmit()
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("query")
 
   useEffect(() => {
     document.getElementById('query').value = query
@@ -41,6 +44,7 @@ const RootPage = () => {
             type="search"
             name="query"
             defaultValue={query}
+            className={searching ? "loading" : ""}
             onChange={(event) => {
               if (event.currentTarget.value.length == 0 || event.currentTarget.value.length > 2)
                 submit(event.currentTarget.form)
@@ -49,7 +53,7 @@ const RootPage = () => {
           <div
             id="search-spinner"
             aria-hidden
-            hidden={true}
+            hidden={!searching}
           />
           <div
             className="sr-only"
