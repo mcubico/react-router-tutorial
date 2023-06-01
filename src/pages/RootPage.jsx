@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, Link, NavLink, Outlet, redirect, useLoaderData } from "react-router-dom"
+import { Form, NavLink, Outlet, redirect, useLoaderData, useNavigation } from "react-router-dom"
 
 import { createContact, getContacts } from '../services/contact.service';
 
@@ -15,6 +15,7 @@ export const action = async () => {
 
 const RootPage = () => {
   const { contacts } = useLoaderData()
+  const navigation = useNavigation()
 
   return <>
     <div id="sidebar">
@@ -96,7 +97,10 @@ const RootPage = () => {
 
     </div>
 
-    <div id="detail">
+    <div
+      id="detail"
+      className={navigation.state === 'loading' ? 'loading' : ''}
+    >
       <Outlet />
     </div>
   </>

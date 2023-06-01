@@ -1,10 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, useLoaderData } from "react-router-dom";
-import { getContact } from "../../services/contact.service";
+import { Form, redirect, useLoaderData } from "react-router-dom";
+import { deleteContact, getContact } from "../../services/contact.service";
 
 export const loader = async ({ params }) => {
   const contact = await getContact(params.contactId)
   return { contact }
+}
+
+export const destroyContactAction = async ({ params }) => {
+  await deleteContact(params.contactId)
+  return redirect('/')
 }
 
 const ContactPage = () => {
