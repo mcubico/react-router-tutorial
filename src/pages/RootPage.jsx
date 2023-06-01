@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, Link, Outlet, redirect, useLoaderData } from "react-router-dom"
+import { Form, Link, NavLink, Outlet, redirect, useLoaderData } from "react-router-dom"
 
 import { createContact, getContacts } from '../services/contact.service';
 
@@ -56,8 +56,16 @@ const RootPage = () => {
                 {
                   contacts.map((contact) => (
                     <li key={contact.id}>
-                      <Link to={`contacts/${contact.id}`}>
-
+                      <NavLink
+                        to={`contacts/${contact.id}`}
+                        className={({ isActive, isPending }) =>
+                          isActive
+                            ? "active"
+                            : isPending
+                              ? "pending"
+                              : ""
+                        }
+                      >
                         {contact.first || contact.last
                           ? (
                             <>
@@ -72,8 +80,7 @@ const RootPage = () => {
                         {" "}
 
                         {contact.favorite && <span>★</span>}
-
-                      </Link>
+                      </NavLink>
                     </li>
                   ))
                 }
