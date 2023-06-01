@@ -4,6 +4,13 @@ import { deleteContact, getContact, updateContact } from "../../services/contact
 
 export const loader = async ({ params }) => {
   const contact = await getContact(params.contactId)
+  if (!contact) {
+    throw new Response("", {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
+  
   return { contact }
 }
 
@@ -95,7 +102,8 @@ const ContactPage = () => {
   </>
 }
 
-const Favorite = ({ contact }) => {
+const Favorite = (props) => {
+  const { contact } = props
   const fetcher = useFetcher()
   let favorite = contact.favorite;
 
@@ -104,7 +112,7 @@ const Favorite = ({ contact }) => {
     favorite = fetcher.formData.get("favorite") === "true";
 
   return (
-    <fetcher.Form Form method="post">
+    <fetcher.Form method="post">
       <button
         name="favorite"
         value={favorite ? "false" : "true"}
