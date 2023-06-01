@@ -11,7 +11,7 @@ export const action = async ({ request, params }) => {
 
   await updateContact(params.contactId, updates)
 
-  return redirect(`/contacts/${params.contactId}`)
+  return redirect(`/home/contacts/${params.contactId}`)
 }
 
 const EditContactPage = () => {

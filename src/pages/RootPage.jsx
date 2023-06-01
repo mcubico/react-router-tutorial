@@ -14,7 +14,7 @@ export const loader = async ({ request }) => {
 
 export const action = async () => {
   const contact = await createContact()
-  return redirect(`/contacts/${contact.id}/edit`)
+  return redirect(`/home/contacts/${contact.id}/edit`)
 }
 
 const RootPage = () => {
